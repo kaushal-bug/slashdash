@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slash Experiences - Manager Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="dark">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-feather="briefcase"></i>
+                <span>Slash Experiences</span>
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li class="active" data-page="dashboard">
+                        <i data-feather="grid"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li data-page="team">
+                        <i data-feather="users"></i>
+                        <span>Team Overview</span>
+                    </li>
+                    <li data-page="tasks">
+                        <i data-feather="check-square"></i>
+                        <span>Tasks</span>
+                    </li>
+                    <li data-page="performance">
+                        <i data-feather="bar-chart-2"></i>
+                        <span>Performance</span>
+                    </li>
+                    <li data-page="schedule">
+                        <i data-feather="calendar"></i>
+                        <span>Schedule</span>
+                    </li>
+                    <li data-page="reports">
+                        <i data-feather="file-text"></i>
+                        <span>Reports</span>
+                    </li>
+                    <li data-page="settings">
+                        <i data-feather="settings"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <div class="avatar">
+                    <i data-feather="user"></i>
+                </div>
+                <div class="user-info">
+                    <h4 id="managerName">Manager</h4>
+                    <small>Admin</small>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard-page">
+                <div class="section-header">
+                    <h1>Welcome Back, <span id="welcomeName">Kaushal</span></h1>
+                    <div class="date-info">
+                        <i data-feather="calendar"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                </div>
+
+                <!-- KPI Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="users"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Total Interns</h3>
+                            <p>20</p>
+                            <div class="kpi-trend positive">
+                                <i data-feather="trending-up"></i>
+                                <span>+2 this week</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="check-circle"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Tasks Completed</h3>
+                            <p>45</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="clock"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>In Progress</h3>
+                            <p>15</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="trending-up"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Average Performance</h3>
+                            <p>85%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section-header">
+                    <h2>Quick Actions</h2>
+                </div>
+                <div class="quick-actions">
+                    <button class="btn primary-btn" id="viewInternsBtn">
+                        <i data-feather="users"></i>
+                        View Interns
+                    </button>
+                    <button class="btn primary-btn" id="addTaskBtn">
+                        <i data-feather="file-plus"></i>
+                        Add Task
+                    </button>
+                    <button class="btn primary-btn" id="viewTasksBtn">
+                        <i data-feather="list"></i>
+                        View Tasks
+                    </button>
+                </div>
+
+                <!-- Dashboard Boards -->
+                <div class="dashboard-boards">
+                    <!-- Ongoing Tasks Board -->
+                    <div class="board">
+                        <div class="board-header">
+                            <h3>Ongoing Tasks</h3>
+                            <button class="btn secondary-btn" id="refreshTasks">
+                                <i data-feather="refresh-cw"></i>
+                            </button>
+                        </div>
+                        <div class="board-content" id="ongoingTasksList">
+                            <!-- Tasks will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Team Overview Board -->
+                    <div class="board">
+                        <div class="board-header">
+                            <h3>Team Overview</h3>
+                            <button class="btn secondary-btn" id="viewAllTeams">
+                                View All
+                            </button>
+                        </div>
+                        <div class="board-content" id="teamOverviewList">
+                            <!-- Team members will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Notes & Updates Board -->
+                    <div class="board">
+                        <div class="board-header">
+                            <h3>Notes & Updates</h3>
+                            <button class="btn secondary-btn" id="addNote">
+                                <i data-feather="plus"></i>
+                            </button>
+                        </div>
+                        <div class="board-content" id="notesList">
+                            <!-- Notes will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Overview Page -->
+            <div class="page" id="team-page">
+                <div class="section-header">
+                    <h2>Team Overview</h2>
+                    <div class="header-actions">
+                        <select class="select-filter" id="teamFilter">
+                            <option value="all">All Teams</option>
+                            <option value="product">Product & UX</option>
+                            <option value="tech">Tech & Automation</option>
+                            <option value="data">Data & Insights</option>
+                            <option value="research">Experience Research</option>
+                            <option value="content">Content & Copy</option>
+                            <option value="outreach">Outreach & Partnerships</option>
+                            <option value="operations">Operations & Coordination</option>
+                        </select>
+                        <button class="btn primary-btn">
+                            <i data-feather="plus"></i>
+                            Add Team Member
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Team Grid -->
+                <div class="team-grid" id="teamGrid">
+                    <!-- Team members will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Tasks Page -->
+            <div class="page" id="tasks-page">
+                <div class="section-header">
+                    <h2>Task Management</h2>
+                    <div class="header-actions">
+                        <select class="select-filter">
+                            <option>All Tasks</option>
+                            <option>High Priority</option>
+                            <option>Medium Priority</option>
+                            <option>Low Priority</option>
+                        </select>
+                        <button class="btn primary-btn">
+                            <i data-feather="plus"></i>
+                            Create Task
+                        </button>
+                    </div>
+                </div>
+
+                <div class="task-board">
+                    <div class="task-column">
+                        <h3>To Do</h3>
+                        <div class="task-list" id="todoTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                    <div class="task-column">
+                        <h3>In Progress</h3>
+                        <div class="task-list" id="inProgressTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                    <div class="task-column">
+                        <h3>Under Review</h3>
+                        <div class="task-list" id="reviewTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                    <div class="task-column">
+                        <h3>Completed</h3>
+                        <div class="task-list" id="completedTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Page -->
+            <div class="page" id="performance-page">
+                <div class="section-header">
+                    <h2>Performance Analytics</h2>
+                    <div class="header-actions">
+                        <select class="select-filter">
+                            <option>This Week</option>
+                            <option>This Month</option>
+                            <option>Last 3 Months</option>
+                            <option>Custom Range</option>
+                        </select>
+                        <button class="btn secondary-btn">
+                            <i data-feather="download"></i>
+                            Export Report
+                        </button>
+                    </div>
+                </div>
+
+                <div class="performance-metrics">
+                    <div class="metric-card">
+                        <h3>Task Completion Rate</h3>
+                        <div class="metric-chart">
+                            <!-- Chart will be added here -->
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Team Performance</h3>
+                        <div class="metric-chart">
+                            <!-- Chart will be added here -->
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Individual Progress</h3>
+                        <div class="metric-list">
+                            <!-- Progress bars will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Page -->
+            <div class="page" id="schedule-page">
+                <div class="section-header">
+                    <h2>Team Schedule</h2>
+                    <button class="btn primary-btn">
+                        <i data-feather="plus"></i>
+                        New Event
+                    </button>
+                </div>
+
+                <div class="calendar-container">
+                    <div class="calendar-nav">
+                        <button class="btn secondary-btn">
+                            <i data-feather="chevron-left"></i>
+                        </button>
+                        <h3 id="currentMonth">March 2024</h3>
+                        <button class="btn secondary-btn">
+                            <i data-feather="chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be rendered here -->
+                    </div>
+                    <div class="upcoming-events">
+                        <h3>Upcoming Events</h3>
+                        <div class="event-list" id="eventList">
+                            <!-- Events will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div class="page" id="reports-page">
+                <div class="section-header">
+                    <h2>Reports & Analytics</h2>
+                    <div class="header-actions">
+                        <button class="btn secondary-btn">
+                            <i data-feather="filter"></i>
+                            Filter
+                        </button>
+                        <button class="btn primary-btn">
+                            <i data-feather="download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Team Performance Report</h3>
+                        <p>Comprehensive analysis of team metrics and KPIs</p>
+                        <button class="btn secondary-btn">View Report</button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Task Completion Analysis</h3>
+                        <p>Detailed breakdown of task completion rates</p>
+                        <button class="btn secondary-btn">View Report</button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Resource Allocation</h3>
+                        <p>Overview of team resource distribution</p>
+                        <button class="btn secondary-btn">View Report</button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Productivity Insights</h3>
+                        <p>Analysis of team productivity trends</p>
+                        <button class="btn secondary-btn">View Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page" id="settings-page">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                </div>
+
+                <div class="settings-container">
+                    <div class="settings-section">
+                        <h3>Profile Settings</h3>
+                        <form id="profileForm" class="settings-form">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" value="Kaushal" />
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" value="kaushal@slashexperiences.com" />
+                            </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <input type="text" value="Manager" disabled />
+                            </div>
+                            <button type="submit" class="btn primary-btn">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Notification Preferences</h3>
+                        <div class="settings-options">
+                            <div class="setting-option">
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span>Email Notifications</span>
+                            </div>
+                            <div class="setting-option">
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span>Task Updates</span>
+                            </div>
+                            <div class="setting-option">
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span>Performance Reports</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Security</h3>
+                        <button class="btn secondary-btn">Change Password</button>
+                        <button class="btn secondary-btn">Enable 2FA</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal" id="addTaskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Task</h3>
+                <button class="close-btn" id="closeAddTask">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <form id="addTaskForm" class="modal-form">
+                <div class="form-group">
+                    <label>Task Title</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Assign To</label>
+                    <select name="assignee" required>
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select name="priority" required>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" name="dueDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Create Task</button>
+                    <button type="button" class="btn secondary-btn" id="cancelAddTask">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Note Modal -->
+    <div class="modal" id="addNoteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Note</h3>
+                <button class="close-btn" id="closeAddNote">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <form id="addNoteForm" class="modal-form">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea name="content" rows="4" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Add Note</button>
+                    <button type="button" class="btn secondary-btn" id="cancelAddNote">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (!user || user.role !== 'manager') {
+            window.location.href = 'login.html';
+        }
+
+        // Set manager name
+        document.getElementById('managerName').textContent = user.name || 'Kaushal';
+        document.getElementById('welcomeName').textContent = user.name || 'Kaushal';
+
+        // Initialize Feather icons
+        feather.replace();
+
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // Sidebar toggle
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        
+        document.querySelector('.logo').addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('sidebar-active');
+        });
+
+        // Set current date
+        const currentDate = new Date();
+        document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Navigation
+        const navLinks = document.querySelectorAll('.nav-links li');
+        const pages = document.querySelectorAll('.page');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const targetPage = link.dataset.page;
+                
+                // Update active states
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                pages.forEach(page => {
+                    if (page.id === `${targetPage}-page`) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Mock data for team members
+        const teamMembers = [
+            {
+                name: "Amit Mishra",
+                team: "Product & UX",
+                role: "UX Design Intern",
+                performance: 95
+            },
+            {
+                name: "Priya Sharma",
+                team: "Tech & Automation",
+                role: "Frontend Development Intern",
+                performance: 88
+            },
+            {
+                name: "Rahul Kumar",
+                team: "Data & Insights",
+                role: "Data Analysis Intern",
+                performance: 92
+            },
+            {
+                name: "Neha Patel",
+                team: "Experience Research",
+                role: "Research Intern",
+                performance: 90
+            },
+            {
+                name: "Arjun Singh",
+                team: "Content & Copy",
+                role: "Content Writing Intern",
+                performance: 87
+            },
+            {
+                name: "Zara Khan",
+                team: "Outreach & Partnerships",
+                role: "Partnership Intern",
+                performance: 93
+            },
+            {
+                name: "Vikram Reddy",
+                team: "Operations & Coordination",
+                role: "Operations Intern",
+                performance: 89
+            }
+            // Add more team members as needed
+        ];
+
+        // Load team members
+        function loadTeamMembers(filter = 'all') {
+            const teamGrid = document.getElementById('teamGrid');
+            teamGrid.innerHTML = '';
+
+            const filteredMembers = filter === 'all' 
+                ? teamMembers 
+                : teamMembers.filter(member => member.team.toLowerCase().includes(filter));
+
+            filteredMembers.forEach(member => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'team-member';
+                memberCard.innerHTML = `
+                    <div class="member-avatar">
+                        <i data-feather="user"></i>
+                    </div>
+                    <h3>${member.name}</h3>
+                    <p class="member-team">${member.team}</p>
+                    <p class="member-role">${member.role}</p>
+                    <div class="member-performance">
+                        <div class="performance-bar">
+                            <div class="performance-fill" style="width: ${member.performance}%"></div>
+                        </div>
+                        <span>${member.performance}%</span>
+                    </div>
+                `;
+                teamGrid.appendChild(memberCard);
+            });
+
+            // Reinitialize Feather icons for new content
+            feather.replace();
+        }
+
+        // Team filter change handler
+        document.getElementById('teamFilter').addEventListener('change', (e) => {
+            loadTeamMembers(e.target.value);
+        });
+
+        // Initial team members load
+        loadTeamMembers();
+
+        // Mock data for tasks
+        const tasks = [
+            {
+                id: 1,
+                title: "Complete Project Documentation",
+                assignee: "Amit Mishra",
+                priority: "high",
+                status: "in-progress",
+                dueDate: "2024-03-25"
+            },
+            {
+                id: 2,
+                title: "User Research Analysis",
+                assignee: "Neha Patel",
+                priority: "medium",
+                status: "todo",
+                dueDate: "2024-03-28"
+            },
+            {
+                id: 3,
+                title: "Content Strategy Document",
+                assignee: "Arjun Singh",
+                priority: "high",
+                status: "review",
+                dueDate: "2024-03-24"
+            }
+            // Add more tasks as needed
+        ];
+
+        // Load tasks
+        function loadTasks() {
+            const taskLists = {
+                todo: document.getElementById('todoTasks'),
+                'in-progress': document.getElementById('inProgressTasks'),
+                review: document.getElementById('reviewTasks'),
+                completed: document.getElementById('completedTasks')
+            };
+
+            // Clear existing tasks
+            Object.values(taskLists).forEach(list => {
+                if (list) list.innerHTML = '';
+            });
+
+            // Add tasks to appropriate columns
+            tasks.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = `task-card priority-${task.priority}`;
+                taskCard.innerHTML = `
+                    <div class="task-header">
+                        <h4>${task.title}</h4>
+                        <span class="status-badge ${task.priority}">${task.priority}</span>
+                    </div>
+                    <p>Assigned to: ${task.assignee}</p>
+                    <div class="task-footer">
+                        <small>Due: ${task.dueDate}</small>
+                    </div>
+                `;
+
+                if (taskLists[task.status]) {
+                    taskLists[task.status].appendChild(taskCard);
+                }
+            });
+        }
+
+        // Load initial tasks
+        loadTasks();
+
+        // Dashboard functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Quick Action Buttons
+            const viewInternsBtn = document.getElementById('viewInternsBtn');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const viewTasksBtn = document.getElementById('viewTasksBtn');
+            
+            // Modals
+            const addTaskModal = document.getElementById('addTaskModal');
+            const addNoteModal = document.getElementById('addNoteModal');
+            
+            // Quick Action Button Handlers
+            viewInternsBtn.addEventListener('click', () => {
+                // Navigate to team page
+                const teamPage = document.getElementById('team-page');
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                teamPage.classList.add('active');
+                document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+                document.querySelector('[data-page="team"]').classList.add('active');
+            });
+
+            addTaskBtn.addEventListener('click', () => {
+                addTaskModal.style.display = 'flex';
+                populateAssigneeSelect();
+            });
+
+            viewTasksBtn.addEventListener('click', () => {
+                // Navigate to tasks page
+                const tasksPage = document.getElementById('tasks-page');
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                tasksPage.classList.add('active');
+                document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+                document.querySelector('[data-page="tasks"]').classList.add('active');
+            });
+
+            // Modal Close Handlers
+            document.getElementById('closeAddTask').addEventListener('click', () => {
+                addTaskModal.style.display = 'none';
+            });
+
+            document.getElementById('closeAddNote').addEventListener('click', () => {
+                addNoteModal.style.display = 'none';
+            });
+
+            document.getElementById('cancelAddTask').addEventListener('click', () => {
+                addTaskModal.style.display = 'none';
+            });
+
+            document.getElementById('cancelAddNote').addEventListener('click', () => {
+                addNoteModal.style.display = 'none';
+            });
+
+            // Add Note Button Handler
+            document.getElementById('addNote').addEventListener('click', () => {
+                addNoteModal.style.display = 'flex';
+            });
+
+            // Form Submissions
+            document.getElementById('addTaskForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const task = {
+                    id: tasks.length + 1,
+                    title: formData.get('title'),
+                    assignee: formData.get('assignee'),
+                    priority: formData.get('priority'),
+                    status: 'todo',
+                    dueDate: formData.get('dueDate'),
+                    description: formData.get('description')
+                };
+                tasks.push(task);
+                loadTasks();
+                loadOngoingTasks();
+                addTaskModal.style.display = 'none';
+                e.target.reset();
+            });
+
+            document.getElementById('addNoteForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const note = {
+                    id: notes.length + 1,
+                    title: formData.get('title'),
+                    content: formData.get('content'),
+                    date: new Date().toISOString()
+                };
+                notes.push(note);
+                loadNotes();
+                addNoteModal.style.display = 'none';
+                e.target.reset();
+            });
+
+            // Initialize boards
+            loadOngoingTasks();
+            loadTeamOverview();
+            loadNotes();
+        });
+
+        // Mock notes data
+        const notes = [
+            {
+                id: 1,
+                title: "Weekly Team Update",
+                content: "Great progress on the UX research project. Team morale is high.",
+                date: "2024-03-20"
+            },
+            {
+                id: 2,
+                title: "Important Reminder",
+                content: "Team meeting scheduled for Friday at 2 PM.",
+                date: "2024-03-21"
+            }
+        ];
+
+        // Load ongoing tasks
+        function loadOngoingTasks() {
+            const ongoingTasksList = document.getElementById('ongoingTasksList');
+            const ongoingTasks = tasks.filter(task => task.status === 'in-progress');
+            
+            ongoingTasksList.innerHTML = ongoingTasks.map(task => `
+                <div class="board-item task-item priority-${task.priority}">
+                    <div class="task-header">
+                        <h4>${task.title}</h4>
+                        <span class="status-badge ${task.priority}">${task.priority}</span>
+                    </div>
+                    <p>Assigned to: ${task.assignee}</p>
+                    <small>Due: ${task.dueDate}</small>
+                </div>
+            `).join('') || '<p class="empty-state">No ongoing tasks</p>';
+        }
+
+        // Load team overview
+        function loadTeamOverview() {
+            const teamOverviewList = document.getElementById('teamOverviewList');
+            const topTeamMembers = teamMembers.slice(0, 3);
+            
+            teamOverviewList.innerHTML = topTeamMembers.map(member => `
+                <div class="board-item team-item">
+                    <div class="member-info">
+                        <h4>${member.name}</h4>
+                        <p>${member.role}</p>
+                    </div>
+                    <div class="member-performance">
+                        <div class="performance-bar">
+                            <div class="performance-fill" style="width: ${member.performance}%"></div>
+                        </div>
+                        <span>${member.performance}%</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load notes
+        function loadNotes() {
+            const notesList = document.getElementById('notesList');
+            
+            notesList.innerHTML = notes.map(note => `
+                <div class="board-item note-item">
+                    <h4>${note.title}</h4>
+                    <p>${note.content}</p>
+                    <small>${new Date(note.date).toLocaleDateString()}</small>
+                </div>
+            `).join('');
+        }
+
+        // Populate assignee select
+        function populateAssigneeSelect() {
+            const assigneeSelect = document.querySelector('select[name="assignee"]');
+            assigneeSelect.innerHTML = teamMembers.map(member => 
+                `<option value="${member.name}">${member.name}</option>`
+            ).join('');
+        }
+
+        // Gradient Animation on Scroll
+        const appContainer = document.querySelector('.app-container');
+        let scrollTimeout;
+
+        function updateGradient() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            const hue1 = (scrollPercent * 2) % 360;
+            const hue2 = (hue1 + 60) % 360;
+            const hue3 = (hue2 + 60) % 360;
+            
+            appContainer.style.setProperty('--gradient-color-1', `hsla(${hue1}, 70%, 65%, 0.1)`);
+            appContainer.style.setProperty('--gradient-color-2', `hsla(${hue2}, 70%, 65%, 0.1)`);
+            appContainer.style.setProperty('--gradient-color-3', `hsla(${hue3}, 70%, 65%, 0.1)`);
+        }
+
+        // Smooth gradient update on scroll
+        window.addEventListener('scroll', () => {
+            if (!scrollTimeout) {
+                scrollTimeout = setTimeout(() => {
+                    updateGradient();
+                    scrollTimeout = null;
+                }, 10);
+            }
+        });
+
+        // Initial gradient
+        updateGradient();
+    </script>
+</body>
+</html> 

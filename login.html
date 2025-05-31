@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slash Experiences - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="dark">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <div class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>Slash Experiences</h1>
+                <p>Welcome back! Please login to your account.</p>
+            </div>
+
+            <div class="login-options">
+                <div class="login-card" data-role="intern">
+                    <div class="card-icon">
+                        <i data-feather="user"></i>
+                    </div>
+                    <h2>Intern</h2>
+                    <p>Access your intern dashboard</p>
+                </div>
+                <div class="login-card" data-role="manager">
+                    <div class="card-icon">
+                        <i data-feather="users"></i>
+                    </div>
+                    <h2>Manager</h2>
+                    <p>Manage your team</p>
+                </div>
+            </div>
+
+            <!-- Intern Login Form -->
+            <form id="internForm" class="login-form hidden">
+                <div class="form-header">
+                    <h2>Intern Login</h2>
+                    <p>Enter your BITS ID and password</p>
+                    <small class="helper-text">Default password is last 4 digits of your BITS ID</small>
+                </div>
+                <div class="form-group">
+                    <label>BITS ID</label>
+                    <div class="input-group">
+                        <i data-feather="user"></i>
+                        <input type="text" name="bitsId" required placeholder="Enter your BITS ID" pattern="^20\d{2}[A-Z]\d[A-Z]{2}\d{4}[A-Z]$" title="Please enter a valid BITS ID format">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <i data-feather="lock"></i>
+                        <input type="password" name="password" required placeholder="Enter your password">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Login</button>
+                    <button type="button" class="btn secondary-btn" id="backToRolesIntern">Back</button>
+                </div>
+                <div class="form-footer">
+                    <button type="button" class="link-btn" id="changePasswordBtn">Change Password</button>
+                </div>
+            </form>
+
+            <!-- Manager Login Form -->
+            <form id="managerForm" class="login-form hidden">
+                <div class="form-header">
+                    <h2>Manager Login</h2>
+                    <p>Enter your credentials to continue</p>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="input-group">
+                        <i data-feather="mail"></i>
+                        <input type="email" name="email" required placeholder="Enter your email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <i data-feather="lock"></i>
+                        <input type="password" name="password" required placeholder="Enter your password">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary-btn">Login</button>
+                    <button type="button" class="btn secondary-btn" id="backToRolesManager">Back</button>
+                </div>
+            </form>
+
+            <!-- Change Password Form -->
+            <form id="changePasswordForm" class="login-form hidden">
+                <div class="form-header">
+                    <h2>Change Password</h2>
+                    <p>Enter your BITS ID and create a new password</p>
+                </div>
+                <div class="form-group">
+                    <label>BITS ID</label>
+                    <div class="input-group">
+                        <i data-feather="user"></i>
+                        <input type="text" name="bitsId" required placeholder="Enter your BITS ID" pattern="^20\d{2}[A-Z]\d[A-Z]{2}\d{4}[A-Z]$">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <div class="input-group">
+                        <i data-feather="lock"></i>
+                        <input type="password" name="currentPassword" required placeholder="Enter current password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <div class="input-group">
+                        <i data-feather="lock"></i>
+                        <input type="password" name="newPassword" required placeholder="Enter new password" minlength="8">
+                    </div>
+                </div>
+                <div class="form-group">
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // DOM Elements
+        const loginOptions = document.querySelector('.login-options');
+        const loginForm = document.querySelector('.login-form');
+        const roleText = document.getElementById('roleText');
+        const backToRoles = document.getElementById('backToRoles');
+        let selectedRole = '';
+
+        // Mock credentials
+        const credentials = {
+            manager: {
+                email: 'kaushal@slashexperiences.com',
+                password: 'admin123'
+            },
+            intern: {
+                email: 'intern@slashexperiences.com',
+                password: 'intern123'
+            }
+        };
+
+        // Role selection
+        document.querySelectorAll('.login-card').forEach(card => {
+            card.addEventListener('click', () => {
+                selectedRole = card.dataset.role;
+                roleText.textContent = selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
+                loginOptions.style.display = 'none';
+                loginForm.classList.remove('hidden');
+            });
+        });
+
+        // Back button
+        backToRoles.addEventListener('click', () => {
+            loginForm.classList.add('hidden');
+            loginOptions.style.display = 'grid';
+            loginForm.reset();
+        });
+
+        // Form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const email = formData.get('email');
+            const password = formData.get('password');
+
+            // Check credentials
+            if (email === credentials[selectedRole].email && 
+                password === credentials[selectedRole].password) {
+                // Store user info
+                const user = {
+                    email,
+                    role: selectedRole,
+                    name: selectedRole === 'manager' ? 'Kaushal' : 'Intern'
+                };
+                sessionStorage.setItem('user', JSON.stringify(user));
+
+                // Redirect to appropriate dashboard
+                window.location.href = selectedRole === 'manager' ? 'manager.html' : 'intern.html';
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Check if user is already logged in
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (user) {
+            window.location.href = user.role === 'manager' ? 'manager.html' : 'intern.html';
+        }
+    </script>
+</body>
+</html> 

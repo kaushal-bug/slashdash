@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slash Experiences - Intern Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="dark">
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-feather="briefcase"></i>
+                <span>Slash Experiences</span>
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li class="active" data-page="dashboard">
+                        <i data-feather="grid"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li data-page="tasks">
+                        <i data-feather="check-square"></i>
+                        <span>Tasks</span>
+                    </li>
+                    <li data-page="messages">
+                        <i data-feather="message-circle"></i>
+                        <span>Messages</span>
+                        <span class="badge">3</span>
+                    </li>
+                    <li data-page="notes">
+                        <i data-feather="edit-3"></i>
+                        <span>Notes to Manager</span>
+                    </li>
+                    <li data-page="reviews">
+                        <i data-feather="star"></i>
+                        <span>Reviews</span>
+                    </li>
+                    <li data-page="calendar">
+                        <i data-feather="calendar"></i>
+                        <span>Calendar</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <div class="avatar">
+                    <i data-feather="user"></i>
+                </div>
+                <div class="user-info">
+                    <h4 id="internName">Intern</h4>
+                    <small id="internId"></small>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard-page">
+                <div class="section-header">
+                    <h1>Welcome Back, <span id="welcomeName">Intern</span></h1>
+                    <div class="date-info">
+                        <i data-feather="calendar"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                </div>
+
+                <!-- KPI Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="check-circle"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Completion Rate</h3>
+                            <p>85%</p>
+                            <div class="kpi-trend positive">
+                                <i data-feather="trending-up"></i>
+                                <span>+5% this week</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="clock"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Tasks Due Today</h3>
+                            <p>3</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="activity"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Active Tasks</h3>
+                            <p>8</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <i data-feather="award"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Achievement Points</h3>
+                            <p>450</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority Tasks -->
+                <div class="section-header">
+                    <h2>Today's Priority Tasks</h2>
+                    <button class="btn secondary-btn">
+                        <i data-feather="filter"></i>
+                        Filter
+                    </button>
+                </div>
+                <div class="priority-tasks" id="priorityTasks">
+                    <!-- Tasks will be added here -->
+                </div>
+            </div>
+
+            <!-- Tasks Page -->
+            <div class="page" id="tasks-page">
+                <div class="section-header">
+                    <h2>Task Management</h2>
+                    <div class="header-actions">
+                        <button class="btn secondary-btn">
+                            <i data-feather="filter"></i>
+                            Filter
+                        </button>
+                        <button class="btn primary-btn">
+                            <i data-feather="plus"></i>
+                            Request Task
+                        </button>
+                    </div>
+                </div>
+
+                <div class="task-board">
+                    <div class="task-column">
+                        <h3>Assigned</h3>
+                        <div class="task-list" id="assignedTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                    <div class="task-column">
+                        <h3>In Progress</h3>
+                        <div class="task-list" id="inProgressTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                    <div class="task-column">
+                        <h3>Pending Review</h3>
+                        <div class="task-list" id="reviewTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                    <div class="task-column">
+                        <h3>Completed</h3>
+                        <div class="task-list" id="completedTasks">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Page -->
+            <div class="page" id="messages-page">
+                <div class="section-header">
+                    <h2>Messages & Announcements</h2>
+                    <div class="message-filters">
+                        <select class="select-filter">
+                            <option>All Messages</option>
+                            <option>Announcements</option>
+                            <option>Direct Messages</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="messages-container" id="messagesContainer">
+                    <!-- Messages will be added here -->
+                </div>
+            </div>
+
+            <!-- Notes Page -->
+            <div class="page" id="notes-page">
+                <div class="section-header">
+                    <h2>Notes to Manager</h2>
+                    <button class="btn primary-btn" onclick="showNewNoteModal()">
+                        <i data-feather="plus"></i>
+                        New Note
+                    </button>
+                </div>
+                <div class="notes-container">
+                    <div class="notes-filters">
+                        <select class="select-filter">
+                            <option>All Notes</option>
+                            <option>Urgent</option>
+                            <option>Informational</option>
+                        </select>
+                        <select class="select-filter">
+                            <option>Latest First</option>
+                            <option>Oldest First</option>
+                        </select>
+                    </div>
+                    <div class="notes-list" id="notesList">
+                        <!-- Notes will be added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Page -->
+            <div class="page" id="reviews-page">
+                <div class="section-header">
+                    <h2>Reviews & Feedback</h2>
+                </div>
+                <div class="reviews-container">
+                    <div class="feedback-section">
+                        <h3>Manager Feedback</h3>
+                        <div class="feedback-list" id="managerFeedback">
+                            <!-- Feedback items will be added here -->
+                        </div>
+                    </div>
+                    <div class="feedback-section">
+                        <h3>Self Reflection</h3>
+                        <button class="btn secondary-btn">
+                            <i data-feather="plus"></i>
+                            Add Reflection
+                        </button>
+                        <div class="reflection-list" id="selfReflection">
+                            <!-- Reflection notes will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Page -->
+            <div class="page" id="calendar-page">
+                <div class="section-header">
+                    <h2>Calendar & Timeline</h2>
+                    <button class="btn primary-btn" id="syncGoogleCalendar">
+                        <i data-feather="refresh-cw"></i>
+                        Sync with Google Calendar
+                    </button>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-nav">
+                        <button class="btn secondary-btn">
+                            <i data-feather="chevron-left"></i>
+                        </button>
+                        <h3 id="currentMonth">March 2024</h3>
+                        <button class="btn secondary-btn">
+                            <i data-feather="chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be rendered here -->
+                    </div>
+                    <div class="timeline-view">
+                        <h3>Upcoming Deadlines</h3>
+                        <div class="timeline-list" id="timelineList">
+                            <!-- Timeline items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- New Note Modal -->
+    <div class="modal" id="newNoteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>New Note to Manager</h2>
+                <button class="close-btn" onclick="closeNewNoteModal()">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="newNoteForm">
+                    <div class="form-group">
+                        <label for="noteTitle">Title</label>
+                        <input type="text" id="noteTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteContent">Content</label>
+                        <textarea id="noteContent" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteType">Type</label>
+                        <select id="noteType" required>
+                            <option value="informational">Informational</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn secondary-btn" onclick="closeNewNoteModal()">Cancel</button>
+                        <button type="submit" class="btn primary-btn">Send Note</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (!user || user.role !== 'intern') {
+            window.location.href = 'login.html';
+        }
+
+        // Set intern name and ID
+        document.getElementById('internName').textContent = user.name;
+        document.getElementById('internId').textContent = user.id;
+        document.getElementById('welcomeName').textContent = user.name;
+
+        // Initialize Feather icons
+        feather.replace();
+
+        // Custom cursor with improved visibility
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            requestAnimationFrame(() => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+            });
+        });
+
+        // Set current date
+        const currentDate = new Date();
+        document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Navigation
+        const navLinks = document.querySelectorAll('.nav-links li');
+        const pages = document.querySelectorAll('.page');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const targetPage = link.dataset.page;
+                
+                // Update active states
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                pages.forEach(page => {
+                    if (page.id === `${targetPage}-page`) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Sidebar toggle
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        
+        document.querySelector('.logo').addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('sidebar-active');
+        });
+
+        // Mock data for tasks
+        const tasks = [
+            {
+                id: 1,
+                title: "Complete Project Documentation",
+                description: "Write comprehensive documentation for the current project phase",
+                assignedBy: "Kaushal",
+                dueDate: "2024-03-25",
+                priority: "high",
+                status: "in-progress"
+            },
+            {
+                id: 2,
+                title: "Code Review Implementation",
+                description: "Review and implement changes from the last code review session",
+                assignedBy: "Kaushal",
+                dueDate: "2024-03-23",
+                priority: "medium",
+                status: "assigned"
+            },
+            {
+                id: 3,
+                title: "Weekly Progress Report",
+                description: "Prepare and submit the weekly progress report",
+                assignedBy: "System",
+                dueDate: "2024-03-22",
+                priority: "medium",
+                status: "pending-review"
+            }
+        ];
+
+        // Load tasks into appropriate columns
+        function loadTasks() {
+            const taskLists = {
+                assigned: document.getElementById('assignedTasks'),
+                'in-progress': document.getElementById('inProgressTasks'),
+                'pending-review': document.getElementById('reviewTasks'),
+                completed: document.getElementById('completedTasks')
+            };
+
+            // Clear existing tasks
+            Object.values(taskLists).forEach(list => {
+                if (list) list.innerHTML = '';
+            });
+
+            // Add tasks to appropriate columns
+            tasks.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = `task-card priority-${task.priority}`;
+                taskCard.innerHTML = `
+                    <div class="task-header">
+                        <h4>${task.title}</h4>
+                        <span class="status-badge ${task.priority}">${task.priority}</span>
+                    </div>
+                    <p>${task.description}</p>
+                    <div class="task-footer">
+                        <small>Due: ${task.dueDate}</small>
+                        <small>By: ${task.assignedBy}</small>
+                    </div>
+                `;
+
+                if (taskLists[task.status]) {
+                    taskLists[task.status].appendChild(taskCard);
+                }
+            });
+
+            // Load priority tasks on dashboard
+            const priorityTasks = document.getElementById('priorityTasks');
+            if (priorityTasks) {
+                priorityTasks.innerHTML = '';
+                tasks
+                    .filter(task => task.priority === 'high')
+                    .forEach(task => {
+                        const taskCard = document.createElement('div');
+                        taskCard.className = 'task-card priority-high';
+                        taskCard.innerHTML = `
+                            <div class="task-header">
+                                <h4>${task.title}</h4>
+                                <span class="status-badge ${task.status}">${task.status}</span>
+                            </div>
+                            <p>${task.description}</p>
+                            <div class="task-footer">
+                                <small>Due: ${task.dueDate}</small>
+                                <small>By: ${task.assignedBy}</small>
+                            </div>
+                        `;
+                        priorityTasks.appendChild(taskCard);
+                    });
+            }
+        }
+
+        // Load initial tasks
+        loadTasks();
+
+        // Modal functions
+        function showNewNoteModal() {
+            document.getElementById('newNoteModal').style.display = 'flex';
+        }
+
+        function closeNewNoteModal() {
+            document.getElementById('newNoteModal').style.display = 'none';
+        }
+
+        // Handle new note submission
+        document.getElementById('newNoteForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add note handling logic here
+            closeNewNoteModal();
+        });
+    </script>
+</body>
+</html> 
